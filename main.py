@@ -3,6 +3,11 @@ import discord
 from discord.ext import commands
 import requests
 
+#ctx.author
+# author = info about user
+#ctx.guild
+#guild = info about the server
+
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
@@ -53,6 +58,11 @@ async def joke(ctx):
     await ctx.send(get_dad_joke())
 @bot.command()
 async def user(ctx):
-    await ctx.send(f"Username: {ctx.author}")
+    await ctx.send(
+        f"Username: {ctx.author}\n"
+        f"ID: {ctx.author.id}\n"
+        f"Joined server: {ctx.author.joined_at.strftime('%Y %B %d')}\n"
+        f"Account created: {ctx.author.created_at.strftime('%Y %B %d')}\n"
+        )
 
 bot.run(os.getenv("token"))
