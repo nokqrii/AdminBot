@@ -33,15 +33,26 @@ async def ping(ctx):
     await ctx.send("Pong")
 @bot.command()
 async def server(ctx):
-    await ctx.send(
-        f"Server's name is: {ctx.guild.name}\n"
-        f"Members: {len(ctx.guild.members)}\n"
-        f"Owner: {ctx.guild.owner}\n"
-        f"Channels: {len(ctx.guild.channels)}\n"
-        f"Roles: {len(ctx.guild.roles) - 1}\n" #-1 because of @everyone role
+    embed = discord.Embed(
+        title=ctx.guild.name,
+        description=(
+            f"Members: {len(ctx.guild.members)}\n"
+            f"Owner: {ctx.guild.owner}\n"
+            f"Channels: {len(ctx.guild.channels)}\n"
+            f"Roles: {len(ctx.guild.roles) - 1}\n"
+            f"Server ID: {ctx.guild.id}\n"
+            f"Created at: {ctx.guild.created_at}\n"
+            f"Description: {ctx.guild.description}"
+        )
     )
+    if ctx.guild.icon:
+        embed.set_thumbnail(url=ctx.guild.icon.url)
+    await ctx.send(embed=embed)
 @bot.command()
 async def joke(ctx):
     await ctx.send(get_dad_joke())
+@bot.command()
+async def user(ctx):
+    await ctx.send(f"Username: {ctx.author}")
 
 bot.run(os.getenv("token"))
